@@ -16,19 +16,19 @@ const BranchSelect = () => {
   // Icons mapping for branches
   const getIcon = (code: string) => {
     const icons: {[key: string]: React.ReactNode} = {
-      "cse": <Code className="h-5 w-5" />,
-      "bcs": <FileText className="h-5 w-5" />,
-      "ece": <BookOpen className="h-5 w-5" />,
-      "pharma": <Beaker className="h-5 w-5" />,
-      "ee": <BookOpen className="h-5 w-5" />,
-      "ce": <BookOpen className="h-5 w-5" />,
-      "me": <BookOpen className="h-5 w-5" />,
-      "mechanical": <BookOpen className="h-5 w-5" />,
-      "civil": <BookOpen className="h-5 w-5" />,
-      "electrical": <BookOpen className="h-5 w-5" />
+      "cse": <Code className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "bcs": <FileText className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "ece": <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "pharma": <Beaker className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "ee": <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "ce": <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "me": <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "mechanical": <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "civil": <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />,
+      "electrical": <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
     };
     
-    return icons[code] || <BookOpen className="h-5 w-5" />;
+    return icons[code] || <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />;
   };
   
   // Color mapping for branches
@@ -97,14 +97,14 @@ const BranchSelect = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto mb-10 text-center">
-          <h1 className="text-3xl font-bold mb-4">Select Your Branch</h1>
-          <p className="text-gray-600 mb-8">
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="max-w-3xl mx-auto mb-8 sm:mb-10 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">Select Your Branch</h1>
+          <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
             Choose your branch to find semester-wise question papers
           </p>
           
-          <div className="max-w-md mx-auto mb-10">
+          <div className="max-w-xs sm:max-w-sm md:max-w-md mx-auto mb-8 sm:mb-10">
             <SearchBar 
               value={searchQuery}
               onSearch={(query) => setSearchQuery(query)} 
@@ -114,18 +114,18 @@ const BranchSelect = () => {
         </div>
         
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <div className="flex justify-center items-center py-16 sm:py-20">
+            <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-primary"></div>
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredBranches.length > 0 ? (
               filteredBranches.map((branch, index) => (
                 <BranchCard key={index} {...branch} />
               ))
             ) : (
-              <div className="col-span-full text-center py-10">
-                <p className="text-lg text-gray-500">No branches found matching your search.</p>
+              <div className="col-span-full text-center py-8 sm:py-10">
+                <p className="text-base sm:text-lg text-gray-500">No branches found matching your search.</p>
               </div>
             )}
           </div>

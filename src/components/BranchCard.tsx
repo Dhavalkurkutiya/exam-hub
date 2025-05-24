@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -21,8 +20,8 @@ const BranchCard = ({ title, shortName, description, color, icon, url }: BranchC
         "transition-all duration-300"
       )}
     >
-      <div className="flex items-start space-x-4">
-        <div className={cn("p-3 rounded-md", color)}>
+      <div className="flex flex-col sm:flex-row items-start sm:space-x-4 space-y-4 sm:space-y-0">
+        <div className={cn("p-3 rounded-md self-center sm:self-auto", color)}>
           {icon}
         </div>
         <div>

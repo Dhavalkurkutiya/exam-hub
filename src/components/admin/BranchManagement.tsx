@@ -152,46 +152,49 @@ export const BranchManagement = ({ branches, setBranches }: BranchManagementProp
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Manage Branches</CardTitle>
+    <Card className="w-full max-w-7xl mx-auto">
+      <CardHeader className="p-4 sm:p-6">
+        <CardTitle className="text-xl sm:text-2xl">Manage Branches</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <Label htmlFor="branchName">Branch Name</Label>
+      <CardContent className="p-4 sm:p-6">
+        <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="branchName" className="text-sm sm:text-base">Branch Name</Label>
             <Input 
               id="branchName" 
               placeholder="Computer Science" 
               value={newBranch.name}
               onChange={(e) => setNewBranch({...newBranch, name: e.target.value})}
+              className="w-full"
             />
           </div>
-          <div>
-            <Label htmlFor="branchCode">Branch Code</Label>
+          <div className="space-y-2">
+            <Label htmlFor="branchCode" className="text-sm sm:text-base">Branch Code</Label>
             <Input 
               id="branchCode" 
               placeholder="cse" 
               value={newBranch.code}
               onChange={(e) => setNewBranch({...newBranch, code: e.target.value})}
+              className="w-full"
             />
           </div>
-          <div>
-            <Label htmlFor="branchDesc">Description (Optional)</Label>
+          <div className="space-y-2">
+            <Label htmlFor="branchDesc" className="text-sm sm:text-base">Description (Optional)</Label>
             <Input 
               id="branchDesc" 
               placeholder="Description" 
               value={newBranch.description}
               onChange={(e) => setNewBranch({...newBranch, description: e.target.value})}
+              className="w-full"
             />
           </div>
         </div>
-        <Button onClick={handleAddBranch} className="mb-6">
+        <Button onClick={handleAddBranch} className="mb-6 w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" /> Add Branch
         </Button>
 
-        <div className="rounded-md border">
-          <Table>
+        <div className="rounded-md border overflow-x-auto">
+          <Table className="min-w-[600px]">
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -216,45 +219,48 @@ export const BranchManagement = ({ branches, setBranches }: BranchManagementProp
                           <Input 
                             value={editingBranch.name} 
                             onChange={(e) => setEditingBranch({...editingBranch, name: e.target.value})}
+                            className="w-full"
                           />
                         </TableCell>
                         <TableCell>
                           <Input 
                             value={editingBranch.code} 
                             onChange={(e) => setEditingBranch({...editingBranch, code: e.target.value})}
+                            className="w-full"
                           />
                         </TableCell>
                         <TableCell>
                           <Input 
                             value={editingBranch.description || ""} 
                             onChange={(e) => setEditingBranch({...editingBranch, description: e.target.value})}
+                            className="w-full"
                           />
                         </TableCell>
                         <TableCell className="text-right space-x-2">
-                          <Button size="sm" variant="outline" onClick={handleUpdateBranch}>
+                          <Button size="sm" variant="outline" onClick={handleUpdateBranch} className="w-full sm:w-auto mb-2 sm:mb-0">
                             <Save className="w-4 h-4 mr-1" /> Save
                           </Button>
-                          <Button size="sm" variant="outline" onClick={() => setEditingBranch(null)}>
+                          <Button size="sm" variant="outline" onClick={() => setEditingBranch(null)} className="w-full sm:w-auto">
                             <X className="w-4 h-4 mr-1" /> Cancel
                           </Button>
                         </TableCell>
                       </>
                     ) : (
                       <>
-                        <TableCell>{branch.name}</TableCell>
-                        <TableCell>{branch.code}</TableCell>
-                        <TableCell>{branch.description || "-"}</TableCell>
+                        <TableCell className="break-words">{branch.name}</TableCell>
+                        <TableCell className="break-words">{branch.code}</TableCell>
+                        <TableCell className="break-words">{branch.description || "-"}</TableCell>
                         <TableCell className="text-right space-x-2">
-                          <Button size="sm" variant="outline" onClick={() => handleEditBranch(branch)}>
+                          <Button size="sm" variant="outline" onClick={() => handleEditBranch(branch)} className="w-full sm:w-auto mb-2 sm:mb-0">
                             <Edit className="w-4 h-4" />
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button size="sm" variant="outline" onClick={() => setBranchToDelete(branch.id)}>
+                              <Button size="sm" variant="outline" onClick={() => setBranchToDelete(branch.id)} className="w-full sm:w-auto">
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             </AlertDialogTrigger>
-                            <AlertDialogContent>
+                            <AlertDialogContent className="w-[95vw] max-w-md sm:w-full">
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Delete Branch</AlertDialogTitle>
                                 <AlertDialogDescription>
@@ -262,9 +268,9 @@ export const BranchManagement = ({ branches, setBranches }: BranchManagementProp
                                   This action cannot be undone.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel onClick={() => setBranchToDelete(null)}>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={handleDeleteBranch}>Delete</AlertDialogAction>
+                              <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+                                <AlertDialogCancel onClick={() => setBranchToDelete(null)} className="w-full sm:w-auto">Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleDeleteBranch} className="w-full sm:w-auto">Delete</AlertDialogAction>
                               </AlertDialogFooter>
                             </AlertDialogContent>
                           </AlertDialog>
@@ -280,4 +286,4 @@ export const BranchManagement = ({ branches, setBranches }: BranchManagementProp
       </CardContent>
     </Card>
   );
-}; 
+};
