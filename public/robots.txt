@@ -1,0 +1,25 @@
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+User-agent: Bingbot 
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+User-agent: Twitterbot
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+User-agent: facebookexternalhit
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Crawl-delay: 10
