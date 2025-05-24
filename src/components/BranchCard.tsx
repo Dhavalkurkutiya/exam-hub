@@ -26,9 +26,9 @@ const BranchCard = ({ title, shortName, description, color, icon, url }: BranchC
           {icon}
         </div>
         <div>
-          <h3 className="text-lg font-semibold mb-1">{title}</h3>
-          <p className="text-xs text-gray-500 mb-2">{shortName}</p>
-          <p className="text-sm text-gray-600">{description}</p>
+          <h3 className="text-lg font-semibold mb-1 truncate">{title}</h3>
+          <p className="text-xs text-gray-500 mb-2 truncate">{shortName}</p>
+          <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
         </div>
       </div>
     </Link>
