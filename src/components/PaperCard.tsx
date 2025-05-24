@@ -3,6 +3,7 @@ import { Calendar, Download, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 export interface PaperCardProps {
   title: string;
@@ -61,9 +62,9 @@ const PaperCard: React.FC<PaperCardProps> = ({
       
       <CardFooter className="flex justify-between gap-4">
         <Button variant="outline" size="sm" className="flex-1" asChild>
-          <a href={viewUrl} className="flex items-center justify-center gap-1">
+          <Link to={viewUrl} className="flex items-center justify-center gap-1">
             <ExternalLink className="h-4 w-4" /> View
-          </a>
+          </Link>
         </Button>
         <Button variant="default" size="sm" className="flex-1" asChild>
           <a 
