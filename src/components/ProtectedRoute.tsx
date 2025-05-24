@@ -13,47 +13,33 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      const { data } = await supabase.auth.getSession();
-      const isAuthenticated = !!data.session;
+    const handleAuthChange = (isAuthenticated: boolean) => {
       setIsLoggedIn(isAuthenticated);
-
       if (!isAuthenticated) {
         toast({
           variant: "destructive",
-          title: "Authentication required",
-          description: "You need to be logged in to access this page.",
+          title: "Authentication required", 
+          description: "You need to be logged in to access this page."
         });
         navigate("/login");
       }
     };
 
-    checkAuthStatus();
+    const checkInitialAuth = async () => {
+      const { data } = await supabase.auth.getSession();
+      handleAuthChange(!!data.session);
+    };
+
+    checkInitialAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        const isAuthenticated = !!session;
-        setIsLoggedIn(isAuthenticated);
-        if (!isAuthenticated) {
-          toast({
-            variant: "destructive",
-            title: "Authentication required",
-            description: "You need to be logged in to access this page.",
-          });
-          navigate("/login");
-        }
-      }
+      (_, session) => handleAuthChange(!!session)
     );
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, [navigate, toast]);
 
-  if (isLoggedIn === null) {
-    // Still checking auth state
-    return null;
-  }
+  if (isLoggedIn === null) return null;
 
   return isLoggedIn ? <>{children}</> : null;
 };

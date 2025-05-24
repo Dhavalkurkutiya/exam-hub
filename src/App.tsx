@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,8 +14,8 @@ import ViewPaper from "./pages/ViewPaper";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UploadPaper from "./pages/UploadPaper";
-import Admin from "./pages/Admin"; // Add this line
-import Profile from './pages/Profile';
+import Admin from "./pages/Admin";
+import Profile from "./pages/Profile";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -38,7 +38,10 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/branches" element={<BranchSelect />} />
             <Route path="/semester/:branchId" element={<SemesterSelect />} />
-            <Route path="/papers/:branchId/:semesterId" element={<QuestionPapers />} />
+            <Route
+              path="/papers/:branchId/:semesterId"
+              element={<QuestionPapers />}
+            />
             <Route path="/search" element={<SearchPapers />} />
             <Route path="/view/:paperId" element={<ViewPaper />} />
             <Route path="/login" element={<Login />} />

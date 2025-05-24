@@ -25,21 +25,23 @@ const PaperCard: React.FC<PaperCardProps> = ({
   semesterNumber,
 }) => {
   return (
-    <Card className="shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader>
-        <CardTitle className="text-lg">{title}</CardTitle>
-        <div className="flex flex-col sm:flex-row sm:items-center text-sm text-gray-500 mt-2 gap-2">
-          <span>{subject}</span>
-          <span className="hidden sm:inline">•</span>
+    <Card className="bg-white rounded-lg shadow hover:shadow-md transition-all duration-300 border border-gray-100">
+      <CardHeader className="space-y-2 p-4">
+        <CardTitle className="text-base font-semibold text-gray-900 line-clamp-1 hover:line-clamp-none">
+          {title}
+        </CardTitle>
+        <div className="flex flex-wrap items-center gap-1.5 text-xs text-gray-600">
+          <span className="font-medium">{subject}</span>
+          <div className="h-1 w-1 rounded-full bg-gray-300" />
           <div className="flex items-center">
-            <Calendar className="h-3.5 w-3.5 mr-1" />
-            {date}
+            <Calendar className="h-3 w-3 mr-1 text-gray-500" />
+            <span>{date}</span>
           </div>
           
           {branchName && (
             <>
-              <span className="hidden sm:inline">•</span>
-              <Badge variant="outline" className="font-normal">
+              <div className="h-1 w-1 rounded-full bg-gray-300" />
+              <Badge variant="secondary" className="text-xs bg-blue-50 text-blue-700 hover:bg-blue-100">
                 {branchName}
               </Badge>
             </>
@@ -47,34 +49,46 @@ const PaperCard: React.FC<PaperCardProps> = ({
           
           {semesterNumber !== undefined && (
             <>
-              <span className="hidden sm:inline">•</span>
-              <Badge variant="outline" className="font-normal">
-                Semester {semesterNumber}
+              <div className="h-1 w-1 rounded-full bg-gray-300" />
+              <Badge variant="secondary" className="text-xs bg-purple-50 text-purple-700 hover:bg-purple-100">
+                Sem {semesterNumber}
               </Badge>
             </>
           )}
         </div>
       </CardHeader>
       
-      <CardContent>
-        {/* Existing content */}
+      <CardContent className="p-0">
+        <div className="h-px bg-gray-100" />
       </CardContent>
       
-      <CardFooter className="flex justify-between gap-4">
-        <Button variant="outline" size="sm" className="flex-1" asChild>
-          <Link to={viewUrl} className="flex items-center justify-center gap-1">
-            <ExternalLink className="h-4 w-4" /> View
+      <CardFooter className="flex gap-2 p-3">
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="flex-1 bg-gray-50 hover:bg-gray-100 border-gray-200" 
+          asChild
+        >
+          <Link to={viewUrl} className="flex items-center justify-center gap-1.5">
+            <ExternalLink className="h-3 w-3" />
+            <span>View</span>
           </Link>
         </Button>
-        <Button variant="default" size="sm" className="flex-1" asChild>
+        <Button 
+          variant="default"
+          size="sm"
+          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white shadow-sm" 
+          asChild
+        >
           <a 
             href={downloadUrl} 
             target="_blank" 
             rel="noopener noreferrer"
             download
-            className="flex items-center justify-center gap-1"
+            className="flex items-center justify-center gap-1.5"
           >
-            <Download className="h-4 w-4" /> Download
+            <Download className="h-3 w-3" />
+            <span>Download</span>
           </a>
         </Button>
       </CardFooter>
