@@ -8,5 +8,11 @@
   "env": {
     "VITE_SUPABASE_URL": "https://mwmmzfawznvmzsvqebjw.supabase.co",
     "VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im13bW16ZmF3em52bXpzdnFlYmp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc4MjYyMjEsImV4cCI6MjA2MzQwMjIyMX0.hib1U9iZdudLHsgHu0ykGix2UT890guFkl4jegP7Tt0"
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 } 
