@@ -173,7 +173,17 @@ const UploadPaper = () => {
         description: "Your question paper has been uploaded successfully.",
       });
       
-      navigate("/papers/" + branch + "/" + semester);
+      // Get branch code for proper redirect
+      const selectedBranch = branches.find(b => b.id === branch);
+      const selectedSemester = semesters.find(s => s.id === semester);
+      
+      if (selectedBranch && selectedSemester) {
+        // Navigate to the papers page with proper branch code and semester number
+        navigate(`/papers/${selectedBranch.code}/${selectedSemester.number}`);
+      } else {
+        // Fallback to branches page if data is not available
+        navigate("/branches");
+      }
     } catch (error: any) {
       toast({
         variant: "destructive",

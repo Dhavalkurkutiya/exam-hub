@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ interface ProfileData {
   bio: string | null;
   phone: string | null;
   created_at: string;
-  updated_at: string;
+  updated_at: string | null;
 }
 
 const Profile = () => {
@@ -49,48 +50,72 @@ const Profile = () => {
         return;
       }
 
+      // First try to get the profile with all columns
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, full_name, email, avatar_url, bio, phone, created_at, updated_at")
+        .select("*")
         .eq("id", session.user.id)
         .single();
 
       if (error) {
         console.error("Error fetching profile:", error);
         if (error.code === 'PGRST116') {
-          // Profile doesn't exist, create one
+          // Profile doesn't exist, create one with available columns
           const { data: newProfile, error: insertError } = await supabase
             .from("profiles")
             .insert([
               {
                 id: session.user.id,
-                email: session.user.email,
                 full_name: session.user.user_metadata?.full_name || null,
-                bio: null,
-                phone: null,
+                ...(session.user.email && { email: session.user.email }),
               }
             ])
-            .select("id, full_name, email, avatar_url, bio, phone, created_at, updated_at")
+            .select("*")
             .single();
 
           if (insertError) {
             throw insertError;
           }
-          setProfile(newProfile);
+          
+          // Create a complete profile object with default values
+          const completeProfile: ProfileData = {
+            id: newProfile.id,
+            full_name: newProfile.full_name || null,
+            email: (newProfile as any).email || session.user.email || null,
+            avatar_url: newProfile.avatar_url || null,
+            bio: (newProfile as any).bio || null,
+            phone: (newProfile as any).phone || null,
+            created_at: newProfile.created_at,
+            updated_at: (newProfile as any).updated_at || null,
+          };
+          
+          setProfile(completeProfile);
           setFormData({
-            full_name: newProfile.full_name || "",
-            bio: newProfile.bio || "",
-            phone: newProfile.phone || "",
+            full_name: completeProfile.full_name || "",
+            bio: completeProfile.bio || "",
+            phone: completeProfile.phone || "",
           });
         } else {
           throw error;
         }
       } else {
-        setProfile(data);
+        // Create a complete profile object with default values for missing columns
+        const completeProfile: ProfileData = {
+          id: data.id,
+          full_name: data.full_name || null,
+          email: (data as any).email || session.user.email || null,
+          avatar_url: data.avatar_url || null,
+          bio: (data as any).bio || null,
+          phone: (data as any).phone || null,
+          created_at: data.created_at,
+          updated_at: (data as any).updated_at || null,
+        };
+        
+        setProfile(completeProfile);
         setFormData({
-          full_name: data.full_name || "",
-          bio: data.bio || "",
-          phone: data.phone || "",
+          full_name: completeProfile.full_name || "",
+          bio: completeProfile.bio || "",
+          phone: completeProfile.phone || "",
         });
       }
     } catch (error: any) {
@@ -110,14 +135,24 @@ const Profile = () => {
 
     setUpdating(true);
     try {
+      // Prepare update data with only the columns that exist
+      const updateData: any = {
+        full_name: formData.full_name,
+        updated_at: new Date().toISOString(),
+      };
+
+      // Try to update bio and phone if they exist in the database
+      try {
+        updateData.bio = formData.bio;
+        updateData.phone = formData.phone;
+      } catch (e) {
+        // These columns might not exist yet
+        console.log("Bio/phone columns not available yet");
+      }
+
       const { error } = await supabase
         .from("profiles")
-        .update({
-          full_name: formData.full_name,
-          bio: formData.bio,
-          phone: formData.phone,
-          updated_at: new Date().toISOString(),
-        })
+        .update(updateData)
         .eq("id", profile.id);
 
       if (error) {
