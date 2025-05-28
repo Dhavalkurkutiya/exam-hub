@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -81,13 +82,22 @@ const UploadPaper = () => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
       
-      // Validate file is a PDF
-      if (selectedFile.type !== 'application/pdf') {
+      console.log("Selected file:", selectedFile.name, "Type:", selectedFile.type, "Size:", selectedFile.size);
+      
+      // More flexible PDF validation for mobile devices
+      const isPDF = selectedFile.type === 'application/pdf' || 
+                   selectedFile.name.toLowerCase().endsWith('.pdf') ||
+                   selectedFile.type === 'application/x-pdf' ||
+                   selectedFile.type === '';
+      
+      if (!isPDF) {
+        console.log("File validation failed. File type:", selectedFile.type);
         toast({
           variant: "destructive",
           title: "Invalid file type",
           description: "Please upload a PDF file only.",
         });
+        e.target.value = ''; // Clear the input
         return;
       }
       
@@ -98,10 +108,16 @@ const UploadPaper = () => {
           title: "File too large",
           description: "File size must be less than 10MB.",
         });
+        e.target.value = ''; // Clear the input
         return;
       }
       
+      console.log("File validation passed");
       setFile(selectedFile);
+      toast({
+        title: "File selected",
+        description: `${selectedFile.name} selected successfully.`,
+      });
     }
   };
 
@@ -302,13 +318,19 @@ const UploadPaper = () => {
             <Input
               id="file"
               type="file"
-              accept=".pdf"
+              accept=".pdf,application/pdf"
               onChange={handleFileChange}
               required
+              className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
             />
             <p className="text-xs text-gray-500 mt-1">
               Please upload files in PDF format only (max 10MB)
             </p>
+            {file && (
+              <p className="text-sm text-green-600 mt-2">
+                ✓ File selected: {file.name}
+              </p>
+            )}
           </div>
           
           <Button 
